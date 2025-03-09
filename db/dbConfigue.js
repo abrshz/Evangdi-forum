@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 
-const dbconnection = mysql.createPool({
+const dbConnection = mysql.createPool({
     user: "evangadiAdmin",
     database: "evangadi_db",
     host: "localhost",
@@ -8,10 +8,12 @@ const dbconnection = mysql.createPool({
     connectionLimit: 10
 })
 
-dbconnection.execute("select  'test' ", (err, result) => {
-    if (err) {
-        console.log(err);
-        } else {
-            console.log(result);
-        }
-})
+// dbConnection.execute("select  'test' ", (err, result) => {
+//     if (err) {
+//         console.log(err);
+//         } else {
+//             console.log(result);
+//         }
+// })
+
+module.exports = dbConnection.promise()
