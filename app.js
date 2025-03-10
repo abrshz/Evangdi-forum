@@ -8,6 +8,9 @@ const dbConnection = require("./db/dbConfigue")
 // User routes middleware 
 const userRouter = require("./routes/userRouter")
 
+// Jason middleware 
+app.use(express.json())
+
 
 // User routes middleware
 app.use("/api/users", userRouter)
