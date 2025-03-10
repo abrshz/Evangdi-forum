@@ -8,12 +8,6 @@ const dbConnection = mysql.createPool({
     connectionLimit: 10
 })
 
-// dbConnection.execute("select  'test' ", (err, result) => {
-//     if (err) {
-//         console.log(err);
-//         } else {
-//             console.log(result);
-//         }
-// })
+
 
 module.exports = dbConnection.promise()
