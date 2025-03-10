@@ -32,7 +32,35 @@ async function register(req, res){
 }
 
 async function login(req, res){
-    res.send("Login")    
+    const {email , password} = req.body;
+    if (!email || !password ){
+        return res.status(StatusCodes.BAD_REQUEST).json({msg: "Please enter all required fields"})
+    }
+
+    try {
+        const [user] = await dbConnection.query("SELECT  username, password , userid from users where email = ?", [email]);
+            if (user.length === 0) {
+                return res.status(StatusCodes.BAD_REQUEST).json({msg: "Email not found"});
+                } 
+// Compare password 
+               const isMatch = await bcrypt.compare(password , user[0].password);
+               if (!isMatch) {
+                return res.status(StatusCodes.BAD_REQUEST).json({msg: "Invalid password"});
+                }
+                return res.json({user: user[0].password})
+
+               
+
+                    
+
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: "Something is error in the server."});
+        
+    }
+
 }
 
 async function check(req, res){
