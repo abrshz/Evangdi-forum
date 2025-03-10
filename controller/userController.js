@@ -4,6 +4,8 @@ const dbConnection = require("../db/dbConfigue")
 const {StatusCodes } = require("http-status-codes")
 
 const bcrypt = require("bcrypt")
+
+const jwt = require("jsonwebtoken")
 async function register(req, res){
     const {username, firstname, lastname , email , password} = req.body
     if (!username || !firstname || !lastname || !email || !password){
@@ -47,7 +49,13 @@ async function login(req, res){
                if (!isMatch) {
                 return res.status(StatusCodes.BAD_REQUEST).json({msg: "Invalid password"});
                 }
-                return res.json({user: user[0].password})
+                const username = user[0].username;
+                const userid = user[0].userid;
+                const token = jwt.sign({username, userid}, "select", {expiresIn: "30d"});
+
+                return res.status(StatusCodes.OK).json({msg: "User login successfully", token});
+
+
 
                
 
